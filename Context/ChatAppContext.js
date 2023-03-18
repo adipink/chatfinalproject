@@ -12,7 +12,7 @@ export const ChatAppProvider = ({children})=> {
     const [listOfFriend, setFriendList] = useState([]);
     const [friendMsg, setFriendMsg] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [usersList, setUserList] = useState([]);
+    const [listOfUser, setUserList] = useState([]);
     const [error, setError] = useState("");
 
     //Chat User Data
@@ -26,6 +26,7 @@ export const ChatAppProvider = ({children})=> {
         try {
             //Get Contract
             const contract = await connectingWithContract();
+            console.log(contract.getUserName);
             //Get Account
             const connectAccount = await connectWallet();
             setAccount(connectAccount);
@@ -36,10 +37,11 @@ export const ChatAppProvider = ({children})=> {
             const friendLists = await contract.getMyFriendList();
             setFriendList(friendLists);
             //Get AllApp User List
-            const userList = await contract.getAllAppUser();
+            const userList = await contract.getAllAppUsers();
             setUserList(userList);
         } catch (error) {
-            setError("Please Install and connect your wallet")
+            //setError("Please Install and connect your wallet")
+            console.log(error)
         }
     };
 
@@ -61,8 +63,8 @@ export const ChatAppProvider = ({children})=> {
     //Creat Account
     const createAccount = async({name,accountAddress})=>{
         try {
-           if(name || accountAddress)
-            return setError("Name And Account Cannot Be Empty") 
+           //if(name || accountAddress)
+            //return setError("Name And Account Cannot Be Empty") 
 
             const contract = await connectingWithContract();
             const getCreatedUser = await contract.createAccount(name);
@@ -97,7 +99,7 @@ export const ChatAppProvider = ({children})=> {
     //Send Message
     const sendMessage = async({msg, address})=>{
         try {
-            if(msg || address) return setError("Please Type Your Message");
+            //if(msg || address) return setError("Please Type Your Message");
 
             const contract = await connectingWithContract();
             const addMessage = await contract.sendMessage(address, msg);
@@ -133,8 +135,11 @@ export const ChatAppProvider = ({children})=> {
             listOfFriend,
             friendMsg,
             loading,
-            usersList,
-            error}}>
+            listOfUser,
+            error,
+            currentUserName,
+            currentUserAddress
+            }}>
             {children}
         </ChatAppContect.Provider>
     )

@@ -1,4 +1,4 @@
-import NavBar from "./NavBar/NavBar.jsx";
+import NavBar from "./NavBar/NavBar";
 import Filter from "./Filter/Filter";
 import Error from "./Error/Error";
 import Friend from "./Friend/friend";

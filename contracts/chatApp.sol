@@ -30,10 +30,12 @@ contract ChatApp {
     mapping(bytes32 => Message[]) allMessages;
 
     function checkUserExists(address publicKey) public view returns (bool) {
+        console.log(bytes(listOfUser[publicKey].userName).length > 0);
         return bytes(listOfUser[publicKey].userName).length > 0;
     }
 
     function createAccount(string calldata name) external {
+        //console.log(msg.sender);
         require(checkUserExists(msg.sender) == false, "User already exist");
         require(bytes(name).length > 0, "User name cannot be empty");
 
