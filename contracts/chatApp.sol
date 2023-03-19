@@ -145,7 +145,10 @@ contract ChatApp {
         uint256 _amount = 10;
 
         // Transfer tokens from the sender to the friend
-        require(token.transfer(friend_key, _amount), "Token transfer failed");
+        require(
+            token.transferFrom(msg.sender, friend_key, _amount),
+            "Token transfer failed"
+        );
         allMessages[chatCode].push(newMsg);
     }
 

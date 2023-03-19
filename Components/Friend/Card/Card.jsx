@@ -21,7 +21,7 @@ const Card = ({ readMessage, el, i, readUser }) => {
         <div className={Style.Card_box}>
           <div className={Style.Card_box_left}>
             <Image
-              src={images.accountName}
+              src={Images.acountName}
               alt="username"
               width={50}
               height={50}
