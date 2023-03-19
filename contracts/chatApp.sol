@@ -1,8 +1,31 @@
-//version of solidity
+//SPDX-License-Identifier: MIT
 pragma solidity ^0.8.1;
 import "hardhat/console.sol";
 
+interface ADNAJO {
+    function transfer(
+        address recipient,
+        uint256 amount
+    ) external returns (bool);
+
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) external returns (bool);
+
+    function balanceOf(address account) external view returns (uint256);
+}
+
 contract ChatApp {
+    address public tokenAddress;
+    ADNAJO public token;
+
+    constructor(address _tokenAddress) {
+        tokenAddress = _tokenAddress;
+        token = ADNAJO(tokenAddress);
+    }
+
     struct Friend {
         address publicKey;
         string friendName;
@@ -119,7 +142,10 @@ contract ChatApp {
 
         bytes32 chatCode = _getChatCode(msg.sender, friend_key);
         Message memory newMsg = Message(msg.sender, block.timestamp, _msg);
+        uint256 _amount = 10;
 
+        // Transfer tokens from the sender to the friend
+        require(token.transfer(friend_key, _amount), "Token transfer failed");
         allMessages[chatCode].push(newMsg);
     }
 
